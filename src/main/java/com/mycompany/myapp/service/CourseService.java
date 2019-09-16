@@ -14,9 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -46,6 +44,11 @@ public class CourseService {
         }
 
         return courseDtos;
+    }
+
+    public List<CourseDto> findCoursesLargerThan10(){
+
+        return courseRepository.finaCourseLargerThan10();
     }
 
     public List<CourseDto> findAllCoursesDtoFromDB(){
@@ -81,13 +84,14 @@ public class CourseService {
         Course courseBeingSaved = Course.builder()
             .courseName(course.getCourseName())
             .courseContent(course.getCourseContent())
-            .courseLocation(course.getCourseContent())
+            .courseLocation(course.getCourseLocation())
             .teacherId(course.getTeacherId())
             .build();
 
         try {
             courseRepository.saveAndFlush(courseBeingSaved);
         } catch (Exception e){
+            System.out.println("this is the error: "+e.getMessage());
             throw new Exception(e.getMessage());
         }
 
@@ -123,7 +127,7 @@ public class CourseService {
 
     }
 
-    public void addCourseToStudent(UserCourse userCourse) throws Exception {
+   /*public void addCourseToStudent(UserCourse userCourse) throws Exception {
 
         Optional<User> curUser = userService.getUserWithAuthorities();
         // 2 find course from course table
@@ -139,5 +143,5 @@ public class CourseService {
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
-    }
+    }*/
 }

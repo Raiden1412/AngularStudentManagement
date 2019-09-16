@@ -23,6 +23,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("SELECT new com.mycompany.myapp.domain.dto.CourseWithTNDto(c.courseName, c.courseLocation, c.courseContent, u.login) from Course c left join User u on c.teacherId = u.id")
     List<CourseWithTNDto> findAllCoursesDtoWithTeacherName();
 
+    @Query("SELECT new com.mycompany.myapp.domain.dto.CourseDto(c.courseName,c.courseLocation,c.courseContent,c.teacherId) FROM Course c WHERE LENGTH(c.courseName)>10")
+    List<CourseDto> finaCourseLargerThan10();
+
     Optional<Course> findCourseByCourseName(String courseName);
 
 }
