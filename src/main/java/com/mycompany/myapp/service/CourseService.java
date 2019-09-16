@@ -46,9 +46,9 @@ public class CourseService {
         return courseDtos;
     }
 
-    public List<CourseDto> findCoursesLargerThan10(){
+    public List<CourseDto> findCoursesLargerThanNumber(int num){
 
-        return courseRepository.finaCourseLargerThan10();
+        return courseRepository.finaCourseLargerThan10(num);
     }
 
     public List<CourseDto> findAllCoursesDtoFromDB(){
