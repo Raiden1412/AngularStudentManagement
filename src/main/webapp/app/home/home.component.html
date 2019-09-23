@@ -34,9 +34,10 @@
                     <div>{{course.courseLocation}}</div>
                     <div>{{course.courseContent}}</div>
                     <div>{{course.teacherId}}</div>
-                    <button (click)="addCourseToStudent()">注册课程</button>
-                    <button>删除课程</button>
+                    <button (click)="registerCourse(course.courseName)">注册课程</button>
+                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" (click)="deleteCourse(course.courseName)">删除课程</button>
                  </div>
+                <div *ngIf="clicked">注册了{{course.courseName}}</div>
             </div>
         </div>
 
@@ -56,21 +57,22 @@
         </div>
 
         <hr>
-        <div *ngIf="isAuthenticated()">
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">创建课程
             <div>
-            <span>课程名称</span><input>
+            <span>课程名称</span><input [(ngModel)]="addcourse.courseName">
             </div>
             <div>
-                <span>课程地点</span><input>
+                <span>课程地点</span><input [(ngModel)]="addcourse.courseLocation">
             </div>
             <div>
-                <span>课程内容</span><input>
+                <span>课程内容</span><input [(ngModel)]="addcourse.courseContent">
             </div>
             <div>
-                <span>课程老师</span><input>
+                <span>课程老师</span><input [(ngModel)]="addcourse.teacherId">
             </div>
-            <button> 创建 </button>
+            <button (click)="addCourse()"> 创建 </button>
         </div>
+
 
         <!--<div *ngIf="isAuthenticated()">-->
             <!--<hr>-->

@@ -60,6 +60,7 @@ public class CourseService {
     }
 
 
+
     public void registerCourse(String courseName) throws Exception{
         Optional<User> curUser = userService.getUserWithAuthorities();
         Optional<Course> curCourse = courseRepository.findCourseByCourseName(courseName);
@@ -72,7 +73,11 @@ public class CourseService {
         } else {
             throw new Exception("UnExpected Exception");
         }
+
+
     }
+
+
 
     public void addCourse(CourseDto course) throws Exception{
         Optional<Course> courseDto = courseRepository.findCourseByCourseName(course.getCourseName());
@@ -126,6 +131,8 @@ public class CourseService {
         existingCourse.setTeacherId(course.getTeacherId());
 
     }
+
+
 
    /*public void addCourseToStudent(UserCourse userCourse) throws Exception {
 

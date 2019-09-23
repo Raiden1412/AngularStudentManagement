@@ -51,15 +51,7 @@ public class CourseController {
         return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/api/course/registerCourse/{courseName}", produces = "application/json")
-    public HttpStatus registerCourse(@PathVariable String courseName) {
-        try {
-            courseService.registerCourse(courseName);
-            return HttpStatus.OK;
-        } catch (Exception e) {
-            return HttpStatus.UNPROCESSABLE_ENTITY;
-        }
-    }
+
 
     @PostMapping(path = "/api/course/addCourse", produces = "application/json")
     public HttpStatus addCourse(@RequestBody @NotNull CourseDto course) {
@@ -81,6 +73,18 @@ public class CourseController {
         }
     }
 
+    @PostMapping(path = "/api/course/registerCourse", produces = "application/json")
+    public HttpStatus registerCourse(@RequestBody @NotNull String courseName) {
+        try {
+
+            courseService.registerCourse(courseName);
+            return HttpStatus.OK;
+        } catch (Exception e) {
+            return HttpStatus.UNPROCESSABLE_ENTITY;
+        }
+
+    }
+
     @PostMapping(path = "/api/course/createCourse", produces = "application/json")
     public HttpStatus createCourse(@RequestBody @NotNull CourseDto course) {
         try {
@@ -100,6 +104,7 @@ public class CourseController {
             return HttpStatus.BAD_REQUEST;
         }
     }
+
 
     /*@PostMapping(path = "/api/course/addCourseToStudent/{courseName}", produces = "application/js")
     public HttpStatus addCourseToStudent(@NotNull @PathVariable("courseName") UserCourse userCourse) {

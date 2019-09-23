@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { ObjectUnsubscribedError, Observable } from 'rxjs';
 import { CourseDto } from 'app/shared/model/course-dto.model';
 import { SERVER_API_URL } from 'app/app.constants';
 import { CourseWithTNDto } from 'app/shared/model/courseWithTN-dto.model';
+import { addCourse } from 'app/shared/model/addCourse';
 
 @Injectable()
 export class CourseService {
@@ -12,6 +13,8 @@ export class CourseService {
     private courseDeleteUrl = SERVER_API_URL + '/api/course/deleteCourse';
     private courseUpdateUrl = SERVER_API_URL + '/api/course/updateCourse';
     private addCourseToStudentUrl = SERVER_API_URL + '/api/course/addCourseToStudent';
+    private addCourseUrl = SERVER_API_URL + '/api/course/addCourse';
+    private courseRegisterUrl = SERVER_API_URL + '/api/course/registerCourse';
 
     constructor(private http: HttpClient) {}
 
@@ -24,15 +27,26 @@ export class CourseService {
         return this.http.get<CourseWithTNDto[]>(`${this.courseAddressWithTNUrl}`);
     }
 
-    delete(courseName: String): Observable<Response> {
-        return this.http.delete<Response>(`${this.courseDeleteUrl}/${courseName}`);
+    delete(courseName: String): Observable<CourseDto[]> {
+        return this.http.delete<CourseDto[]>(`${this.courseDeleteUrl}/${courseName}`);
+    }
+
+    addCourse(addingCourse: addCourse): Observable<CourseDto[]> {
+        return this.http.post<CourseDto[]>(this.addCourseUrl, addingCourse);
     }
 
     update(course: CourseDto): Observable<Response> {
         return this.http.put<Response>(this.courseUpdateUrl, course);
     }
 
-    addCourseToStudent(courseName: String, currentUserCredential: String) {
-        return this.http.post(SERVER_API_URL + '/api/course/addCourseToStudent', { courseName, currentUserCredential });
+    register(courseName: String): Observable<CourseDto[]> {
+        debugger;
+        console.log('jinlaile4');
+        console.log(courseName);
+        return this.http.post<CourseDto[]>(this.courseRegisterUrl, courseName);
+    }
+
+    addCourseToStudent(course: CourseDto) {
+        return this.http.post(SERVER_API_URL + '/api/course/addCourseToStudent', { course });
     }
 }
