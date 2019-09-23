@@ -70,7 +70,6 @@ export class HomeComponent implements OnInit {
     }
 
     registerCourse(courseName: string) {
-        console.log('jinlaile1');
         console.log(courseName + 'is here');
         this.courseService.register(courseName).subscribe(curDto => {
             if (!curDto) {
@@ -80,7 +79,6 @@ export class HomeComponent implements OnInit {
             }
         });
         this.clicked = !this.clicked;
-        console.log('jinlaile3');
     }
 
     addCourse() {

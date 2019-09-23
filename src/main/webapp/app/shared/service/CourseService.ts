@@ -41,7 +41,6 @@ export class CourseService {
 
     register(courseName: String): Observable<CourseDto[]> {
         debugger;
-        console.log('jinlaile4');
         console.log(courseName);
         return this.http.post<CourseDto[]>(this.courseRegisterUrl, courseName);
     }
