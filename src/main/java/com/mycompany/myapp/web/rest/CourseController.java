@@ -75,8 +75,8 @@ public class CourseController {
 
     @PostMapping(path = "/api/course/registerCourse", produces = "application/json")
     public HttpStatus registerCourse(@RequestBody @NotNull String courseName) {
+        System.out.println("courseName is: "+courseName);
         try {
-
             courseService.registerCourse(courseName);
             return HttpStatus.OK;
         } catch (Exception e) {

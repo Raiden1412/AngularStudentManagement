@@ -62,6 +62,7 @@ public class CourseService {
 
 
     public void registerCourse(String courseName) throws Exception{
+
         Optional<User> curUser = userService.getUserWithAuthorities();
         Optional<Course> curCourse = courseRepository.findCourseByCourseName(courseName);
 
