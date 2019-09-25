@@ -19,8 +19,9 @@ export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
     courseName: string;
-    addcourse: addCourse;
+    addcourse: CourseDto;
     clicked = false;
+    registered = false;
 
     constructor(
         private principal: Principal,
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
         this.addcourse = new addCourse('', '', '', '');
     }
 
-    courses: CourseDto[] = [];
+    allCourses: CourseDto[] = [];
+    userCourses: CourseDto[] = [];
 
     coursesWithTN: CourseWithTNDto[] = [];
 
@@ -58,13 +60,25 @@ export class HomeComponent implements OnInit {
         this.modalRef = this.loginModalService.open();
     }
 
+    getRegistrationCourses() {
+        debugger;
+
+        this.courseService.getCourseRegistration().subscribe(curDto => {
+            if (!curDto) {
+                this.userCourses = [];
+            } else {
+                this.userCourses = curDto;
+            }
+        });
+    }
+
     getAllCourses() {
         debugger;
         this.courseService.getCourseInfo().subscribe(curDto => {
             if (!curDto) {
-                this.courses = [];
+                this.allCourses = [];
             } else {
-                this.courses = curDto;
+                this.allCourses = curDto;
             }
         });
     }
@@ -73,10 +87,11 @@ export class HomeComponent implements OnInit {
         console.log(courseName + 'is here');
         this.courseService.register(courseName).subscribe(curDto => {
             if (!curDto) {
-                this.courses = [];
+                this.userCourses = [];
             } else {
-                this.courses = curDto;
+                this.userCourses = curDto;
             }
+            this.getRegistrationCourses();
         });
         this.clicked = !this.clicked;
     }
@@ -93,23 +108,24 @@ export class HomeComponent implements OnInit {
             );
             this.courseService.addCourse(this.addcourse).subscribe(curDto => {
                 if (!curDto) {
-                    this.courses = [];
+                    this.allCourses = [];
                 } else {
-                    this.courses = curDto;
+                    this.allCourses = curDto;
                 }
+                this.getAllCourses();
             });
         }
     }
 
     deleteCourse(courseName: string) {
         debugger;
-
         this.courseService.delete(courseName).subscribe(curDto => {
             if (!curDto) {
-                this.courses = [];
+                this.allCourses = [];
             } else {
-                this.courses = curDto;
+                this.allCourses = curDto;
             }
+            this.getAllCourses();
         });
     }
 
@@ -128,7 +144,10 @@ export class HomeComponent implements OnInit {
     // }
 
     clearAllCourses() {
-        this.courses = [];
+        this.allCourses = [];
+    }
+    clearUserCourses() {
+        this.userCourses = [];
     }
 
     /*addCourseToStudent() {

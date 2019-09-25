@@ -5,8 +5,10 @@ import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.domain.UserCourse;
 import com.mycompany.myapp.domain.dto.CourseDto;
 import com.mycompany.myapp.domain.dto.CourseWithTNDto;
+import com.mycompany.myapp.domain.dto.UserCourseDto;
 import com.mycompany.myapp.repository.CourseRepository;
 import com.mycompany.myapp.repository.UserCourseRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import org.checkerframework.checker.units.qual.A;
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import java.util.*;
 public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserCourseRepository userCourseRepository;
@@ -46,9 +51,25 @@ public class CourseService {
         return courseDtos;
     }
 
+    public List<CourseDto> findRegistration(){
+        Optional<User> user=userRepository.findOneWithAuthoritiesById(Long.valueOf(4));
+
+        Optional<List<UserCourse>> userCourses=userCourseRepository.findAllByUser(user.get());
+        List<CourseDto> coursesDto=new ArrayList<>();
+        for(int i=0;i<userCourses.get().size();i++){
+
+            Course course=userCourses.get().get(i).getCourse();
+            CourseDto courseDto=new CourseDto(course.getCourseName(),course.getCourseLocation(),
+                course.getCourseContent(),course.getTeacherId());
+            coursesDto.add(courseDto);
+        }
+        return coursesDto;
+
+    }
+
     public List<CourseDto> findCoursesLargerThanNumber(int num){
 
-        return courseRepository.finaCourseLargerThan10(num);
+        return courseRepository.findCourseLargerThan10(num);
     }
 
     public List<CourseDto> findAllCoursesDtoFromDB(){

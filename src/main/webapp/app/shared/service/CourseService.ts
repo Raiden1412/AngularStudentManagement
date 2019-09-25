@@ -15,8 +15,14 @@ export class CourseService {
     private addCourseToStudentUrl = SERVER_API_URL + '/api/course/addCourseToStudent';
     private addCourseUrl = SERVER_API_URL + '/api/course/addCourse';
     private courseRegisterUrl = SERVER_API_URL + '/api/course/registerCourse';
+    private courseRegistration = SERVER_API_URL + '/api/course/registration';
 
     constructor(private http: HttpClient) {}
+
+    getCourseRegistration(): Observable<CourseDto[]> {
+        debugger;
+        return this.http.get<CourseDto[]>(`${this.courseRegistration}`);
+    }
 
     getCourseInfo(): Observable<CourseDto[]> {
         debugger;

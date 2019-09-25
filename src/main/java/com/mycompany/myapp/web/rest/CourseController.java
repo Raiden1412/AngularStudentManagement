@@ -51,6 +51,12 @@ public class CourseController {
         return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
 
+    @GetMapping (path="/api/course/registration", produces = "application/json")
+    public HttpEntity<List<CourseDto>> findRegistrationCourseDto(){
+        List<CourseDto> courses=courseService.findRegistration();
+        System.out.println("========================="+courses.size());
+        return new ResponseEntity<>(courses,HttpStatus.OK);
+    }
 
 
     @PostMapping(path = "/api/course/addCourse", produces = "application/json")
@@ -95,7 +101,7 @@ public class CourseController {
         }
     }
 
-    @DeleteMapping(path = "/api/course/deleteCourse/{courseName}", produces = "application/js")
+    @DeleteMapping(path = "/api/course/deleteCourse/{courseName}", produces = "application/json")
     public HttpStatus deleteCourse(@NotNull @PathVariable("courseName") String courseName) {
         try {
             courseService.deleteCourse(courseName);
